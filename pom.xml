@@ -6,7 +6,12 @@
 
     <groupId>com.will</groupId>
     <artifactId>kafkaDemo</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>Producer</module>
+        <module>Consumer</module>
+    </modules>
 
     <dependencies>
         <dependency>

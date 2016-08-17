@@ -32,6 +32,8 @@ public class MsgProducer {
             }
         }catch (Exception e){
 
+        }finally {
+            producer.close();
         }
     }
 
