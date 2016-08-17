@@ -16,7 +16,7 @@ public class MsgConsumer {
         Properties props = new Properties();
         props.put("bootstrap.servers", "l-test10.dev.cn2.corp.agrant.cn:9092");
         props.put("group.id", "test");
-        props.put("enable.auto.commit", "true");
+        props.put("enable.auto.commit", "false");
         props.put("auto.commit.interval.ms", "1000");
         props.put("session.timeout.ms", "30000");
         props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
@@ -26,10 +26,14 @@ public class MsgConsumer {
 
     public void recvMsg(){
         consumer.subscribe(Arrays.asList("testTopic"));
+        int buffersize=10;
         while (true) {
-            ConsumerRecords<String, String> records = consumer.poll(100);
+            buffersize--;
+            ConsumerRecords<String, String> records = consumer.poll(100);//consumer will fetch all the msgs from broker
             for (ConsumerRecord<String, String> record : records)
-                System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+                System.out.printf("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
+            if(buffersize<0)
+                consumer.commitSync();//what's the meaning?
         }
     }
 
