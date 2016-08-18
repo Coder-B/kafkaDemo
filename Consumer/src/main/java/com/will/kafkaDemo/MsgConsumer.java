@@ -33,7 +33,11 @@ public class MsgConsumer {
             for (ConsumerRecord<String, String> record : records)
                 System.out.printf("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
             if(buffersize<0)
-                consumer.commitSync();//what's the meaning?
+                /* When call it, consumer will commit the offset which is relevant to each msg.
+                 * When we try to make it failed, and throw CommitFailedException, consumer will get the duplicate msgs.
+                 * And we find that, the offset consumer want to commit is still the pre version.
+                  */
+                consumer.commitSync();
         }
     }
 
