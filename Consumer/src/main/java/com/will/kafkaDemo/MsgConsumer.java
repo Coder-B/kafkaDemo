@@ -14,7 +14,11 @@ public class MsgConsumer {
     private static KafkaConsumer<String, String> consumer=null;
     static{
         Properties props = new Properties();
-        props.put("bootstrap.servers", "l-test10.dev.cn2.corp.agrant.cn:9092");
+        /*
+         * Bind more than one server on the consumer.
+         * When shut down one of the servers, consumer can recv all the msgs without missing any one.
+        */
+        props.put("bootstrap.servers", "l-test10.dev.cn2.corp.agrant.cn:9092,l-test10.dev.cn2.corp.agrant.cn:9093,l-test10.dev.cn2.corp.agrant.cn:9094");
         props.put("group.id", "test");
         props.put("enable.auto.commit", "false");
         props.put("auto.commit.interval.ms", "1000");
